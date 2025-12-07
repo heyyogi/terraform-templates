@@ -1,0 +1,37 @@
+pipeline {
+    agent {label "node"}
+
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage(git_clone){
+            steps{
+                git url : "https://github.com/alkesh-009/Student-Registration-App.git", branch: "main"
+            }
+        }
+        stage("mysql_install"){
+            steps{
+                sh "sudo apt install mysql-server -y"
+                echo "mysql successfully installed"
+            }
+        }
+        stage("install_maven"){
+            steps{
+                sh "sudo apt install maven -y"
+            }
+        }
+        stage ("go_to_the-backend-dir"){
+            steps{
+                sh '''
+                cd ubuntu@ip-172-31-4-19:~/workspace/student_db/backend/
+                echo "succesffuly setup backend"
+                '''
+            }
+        }
+        // now setup frontend part
+        //stage ("goto-the-frontent-dir")
+    }
+}
